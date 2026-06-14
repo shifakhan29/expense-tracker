@@ -62,7 +62,7 @@ def post_expense(id):
 def register():
     data=request.get_json()
     hashed=hashpw(data['password'].encode(),gensalt())
-    new_user=User(username=data['username'], password=hashed.encode('utf-8'))
+    new_user=User(username=data['username'], password=hashed.decode('utf-8'))
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"message":"Registered!","username": data['username'] })
