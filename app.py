@@ -62,7 +62,7 @@ def post_expense(id):
 def register():
     data=request.get_json()
     hashed=hashpw(data['password'].encode(),gensalt())
-    new_user=User(username=data['username'], password=hashed)
+    new_user=User(username=data['username'], password=hashed.decode('utf-8'))
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"message":"Registered!","username": data['username'] })
@@ -71,7 +71,7 @@ def register():
 def login():
     data=request.get_json()
     user=User.query.filter_by(username=data['username']).first()
-    checked=checkpw(data['password'].encode(), user.password)
+    checked=checkpw(data['password'].encode(), user.password.decode('utf-8'))
     if not checked:
          return jsonify({"message": "Wrong password!"}), 401
     access_token=create_access_token(identity=user.username)
