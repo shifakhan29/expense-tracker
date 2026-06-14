@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager , create_access_token,  jwt_required, get_jwt_identity
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///expenses.db'
+app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL', 'sqlite:///expenses.db')
 app.config['JWT_SECRET_KEY'] = 'shifa-secret-123'
 db=SQLAlchemy(app)
 jwt=JWTManager(app)
